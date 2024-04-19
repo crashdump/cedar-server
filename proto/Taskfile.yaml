@@ -1,0 +1,21 @@
+version: '3'
+
+tasks:
+  clean:
+    cmds:
+      - rm -rf gen/*
+
+  build:
+    cmds:
+      - buf mod update
+      - buf generate .
+
+  lint:
+    cmds:
+      - buf lint .
+
+  verify:
+    deps:
+      - lint
+    cmds:
+      - echo "success"

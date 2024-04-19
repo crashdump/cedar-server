@@ -1,0 +1,9 @@
+syntax = "proto3";
+package management.v1;
+option go_package = "github.com/crashdump/cedar-server/proto/gen/go/management/v1;managementpb";
+
+message PolicyDefinition {
+  string id =  1;
+  string description = 2;
+  string statement = 3;
+}

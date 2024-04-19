@@ -1,0 +1,30 @@
+version: v1
+plugins:
+  # Golang
+  - name: go # Synonym with: protoc-gen-<name>
+    out: gen/go
+    opt: paths=source_relative
+  - name: go-grpc
+    out: gen/go
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=false
+  # Rust
+  # See https://docs.rs/protoc-gen-prost/latest/protoc_gen_prost
+  # See https://github.com/neoeinstein/protoc-gen-prost
+  - plugin: buf.build/community/neoeinstein-prost:v0.3.1
+    out: gen/rs/src
+    opt:
+      - bytes=.
+      - compile_well_known_types
+      - extern_path=.google.protobuf=::pbjson_types
+      - file_descriptor_set
+  - plugin: buf.build/community/neoeinstein-prost-serde:v0.3.0
+    out: gen/rs/src
+  - plugin: buf.build/community/neoeinstein-tonic:v0.4.0
+    out: gen/rs/src
+    opt:
+      - compile_well_known_types
+      - extern_path=.google.protobuf=::pbjson_types
+#  - plugin: buf.build/community/neoeinstein-prost-crate:v0.4.0
+#    out: gen

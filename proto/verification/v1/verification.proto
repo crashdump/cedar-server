@@ -1,0 +1,7 @@
+syntax = "proto3";
+package verification.v1;
+option go_package = "github.com/crashdump/cedar-server/proto/gen/go/verification/v1;verificationpb";
+
+message Decision {
+  string id = 1;
+}

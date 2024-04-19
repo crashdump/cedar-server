@@ -1,0 +1,18 @@
+syntax = "proto3";
+package verification.v1;
+option go_package = "github.com/crashdump/cedar-server/proto/gen/go/verification/v1;verificationpb";
+
+import "verification/v1/verification.proto";
+
+service VerificationService {
+  rpc IsAuthorized(IsAuthorizedRequest) returns(IsAuthorizedResponse);
+}
+
+message IsAuthorizedRequest {
+  string policy_store_id = 1;
+  Decision decision = 2;
+}
+
+message IsAuthorizedResponse {
+  string policy_store_id = 1;
+}

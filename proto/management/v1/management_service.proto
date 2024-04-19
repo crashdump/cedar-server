@@ -1,0 +1,61 @@
+syntax = "proto3";
+package management.v1;
+option go_package = "github.com/crashdump/cedar-server/proto/gen/go/management/v1;managementpb";
+
+import "buf/validate/validate.proto";
+import "management/v1/management.proto";
+
+service ManagementService {
+  rpc CreatePolicy(CreatePolicyRequest) returns(CreatePolicyResponse);
+  rpc GetPolicy(GetPolicyRequest) returns(GetPolicyResponse);
+  rpc ListPolicies(ListPoliciesRequest) returns(ListPoliciesResponse);
+  rpc DeletePolicy(DeletePolicyRequest) returns(DeletePolicyResponse);
+}
+
+message CreatePolicyRequest {
+  string policy_store_id = 1 [(buf.validate.field).required = true,
+                              (buf.validate.field).string.uuid = true];
+
+  string description = 2 [(buf.validate.field).required = true];
+  string statement = 3 [(buf.validate.field).required = true];
+}
+
+message CreatePolicyResponse {
+  string policy_store_id = 1;
+  PolicyDefinition policy = 10;
+}
+
+message GetPolicyRequest {
+  string policy_store_id = 1 [(buf.validate.field).required = true,
+                              (buf.validate.field).string.uuid = true];
+
+  string policy_id = 2 [(buf.validate.field).required = true,
+                        (buf.validate.field).string.uuid = true];
+}
+
+message GetPolicyResponse {
+  string policy_store_id = 1;
+  PolicyDefinition policy = 2;
+}
+
+message ListPoliciesRequest {
+  string policy_store_id = 1 [(buf.validate.field).required = true,
+                              (buf.validate.field).string.uuid = true];
+}
+
+message ListPoliciesResponse {
+  string policy_store_id = 1;
+  repeated PolicyDefinition policies = 2;
+}
+
+message DeletePolicyRequest {
+  string policy_store_id = 1 [(buf.validate.field).required = true,
+                              (buf.validate.field).string.uuid = true];
+
+  string policy_id = 2 [(buf.validate.field).required = true,
+                        (buf.validate.field).string.uuid = true];
+}
+
+message DeletePolicyResponse {
+  string policy_store_id = 1;
+}

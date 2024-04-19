@@ -1,0 +1,38 @@
+version: '3'
+
+includes:
+  proto:
+    taskfile: ./proto
+    dir: ./proto
+
+tasks:
+  clean:
+    deps:
+      - proto:clean
+    cmds:
+      - rm -rf dist/*
+
+  build:
+    # buf build isn't required here
+    # since it's run by build.rs
+    cmds:
+      - cargo build
+
+  lint:
+    deps:
+      - proto:lint
+    cmds:
+      - cargo deny check
+      - cargo fmt
+      - cargo clippy
+
+  verify:
+    deps:
+      - proto:verify
+    cmds:
+      - cargo test
+
+  migrate:
+    cmds:
+      - diesel migration run
+      - diesel print-schema > src/schema.rs
